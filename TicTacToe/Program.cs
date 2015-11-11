@@ -438,50 +438,7 @@ namespace TicTacToe //Create Tic Tac Toe game with 2 players
         }
 
         static void Main(string[] args)
-        {
-            Console.WriteLine("");
-            Console.WriteLine("Hello and welcome to Tic Tac Toe made by professionals. Honestly.");
 
-            while (true)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("");
-                Console.WriteLine("To play versus another human, please press 1.");
-                Console.WriteLine("To play versus an easy computer, please press 2.");
-                Console.WriteLine("To quit, please press Esc.");
-                Console.WriteLine("");
-                ConsoleKeyInfo Input = Console.ReadKey();
-
-                if (Input.Key == ConsoleKey.D1)
-                {
-                    PlayGame();
-                    Console.WriteLine("");
-                    Console.WriteLine("");
-                }
-
-                else if (Input.Key == ConsoleKey.D2)
-                {
-                    PlayEasyComputer();
-                    Console.WriteLine("");
-                    Console.WriteLine("");
-                }
-
-                else if (Input.Key == ConsoleKey.Escape)
-                {
-                    break;
-                }
-
-                else
-                {
-                    Console.WriteLine("Invalid selection, please try again.");
-                }
-            }
-
-            Console.WriteLine("");
-            Console.WriteLine("Thank you for playing Tic Tac Toe.");
-            Console.WriteLine("Prease any key to quit.");
-            Console.ReadKey();
-        }
     }
     //Construct "Hard Mode" here, then cut/paste up.
 
