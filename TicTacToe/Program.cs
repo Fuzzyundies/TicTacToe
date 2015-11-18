@@ -15,7 +15,7 @@ namespace TicTacToe //Create Tic Tac Toe game with 2 players
                     */
 
 /*
-    _[0],[0]_|_[0],[1]_|_[0],[2]_
+    _[0],[0]_|_[1],[0]_|_[2],[0]_
     _4_|_5_|_6_
     _7_|_8_|_9_
 
@@ -25,31 +25,111 @@ namespace TicTacToe //Create Tic Tac Toe game with 2 players
     2 Dimensional Array
 */
 {
+    class Grid
+    {
+        private string[,] gridstate;
+
+        public Grid()
+        {
+            
+            gridstate = new string[3, 3];
+            gridstate[0, 0] = "1";
+            gridstate[1, 0] = "2";
+            gridstate[2, 0] = "3";
+            gridstate[0, 1] = "4";
+            gridstate[1, 1] = "5";
+            gridstate[2, 1] = "6";
+            gridstate[0, 2] = "7";
+            gridstate[1, 2] = "8";
+            gridstate[2, 2] = "9";
+            
+        }
+
+        public string GetAtPosition(int p)
+        {
+            switch(p)
+            {
+                case 1:
+                    return gridstate[0, 0];
+                    break;
+
+                case 2:
+                    return gridstate[1, 0];
+                    break;
+
+                case 3:
+                    return gridstate[2, 0];
+                    break;
+
+                case 4:
+                    return gridstate[0, 1];
+                    break;
+
+                case 5:
+                    return gridstate[1, 1];
+                    break;
+
+                case 6:
+                    return gridstate[2, 1];
+                    break;
+
+                case 7:
+                    return gridstate[0, 2];
+                    break;
+
+                case 8:
+                    return gridstate[1, 2];
+                    break;
+
+                case 9:
+                    return gridstate[2, 2];
+                    break;
+
+                default:
+                    throw new ArgumentException("Position " + p + " does not exist.");
+                    break;
+            }
+        }
+
+        public string this[int x, int y]
+        {
+            get
+            {
+                return gridstate [x,y];
+            }
+            set
+            {
+                gridstate[x, y] = value;
+            }
+        }
+
+    }
+
     class Program
     {
-        static string[,] grid;
+        static Grid playGrid;
 
         static string currentPlayer;
 
         static void PrintSlot(int x, int y)
         {
-            if (grid[x, y] == "X")
+            if (playGrid[x, y] == "X")
             {
                 Console.ForegroundColor = ConsoleColor.Blue;
             }
-            else if (grid[x, y] == "O")
+            else if (playGrid[x, y] == "O")
             {
                 Console.ForegroundColor = ConsoleColor.Red;
             }
 
-            Console.Write(grid[x, y]);
+            Console.Write(playGrid[x, y]);
             Console.ForegroundColor = ConsoleColor.White;
         }
 
         static void PrintGrid() //Error
         {
-            string output = string.Format("_{0}_|_{1}_|_{2}_\n_{3}_|_{4}_|_{5}_\n {6} | {7} | {8} ", grid[0, 0], grid[1, 0], grid[2, 0],
-                grid[0, 1], grid[1, 1], grid[2, 1], grid[0, 2], grid[1, 2], grid[2, 2]); // { } is a Token
+            string output = string.Format("_{0}_|_{1}_|_{2}_\n_{3}_|_{4}_|_{5}_\n {6} | {7} | {8} ", playGrid[0, 0], playGrid[1, 0], playGrid[2, 0],
+                playGrid[0, 1], playGrid[1, 1], playGrid[2, 1], playGrid[0, 2], playGrid[1, 2], playGrid[2, 2]); // { } is a Token
 
             // Console.BackgroundColor = ConsoleColor.White;
             Console.ForegroundColor = ConsoleColor.White;
@@ -133,16 +213,7 @@ namespace TicTacToe //Create Tic Tac Toe game with 2 players
 
         static void CreateGrid() //Initializer function
         {
-            grid = new string[3, 3];
-            grid[0, 0] = "1";
-            grid[1, 0] = "2";
-            grid[2, 0] = "3";
-            grid[0, 1] = "4";
-            grid[1, 1] = "5";
-            grid[2, 1] = "6";
-            grid[0, 2] = "7";
-            grid[1, 2] = "8";
-            grid[2, 2] = "9";
+            playGrid = new Grid();
         }
 
         static bool PlaceMark(string mark, int slot) //Does this write X,O in the slot, can't read that it does.
@@ -151,74 +222,74 @@ namespace TicTacToe //Create Tic Tac Toe game with 2 players
             switch (slot) //Defines cases. Cleaner way of writing "ifs"
             {
                 case 1:
-                    if (grid[0, 0].Contains("1"))
+                    if (playGrid[0, 0].Contains("1"))
                     {
-                        grid[0, 0] = mark;
+                        playGrid[0, 0] = mark;
                         return true;
                     }
                     break;
 
                 case 2:
-                    if (grid[1, 0].Contains("2"))
+                    if (playGrid[1, 0].Contains("2"))
                     {
-                        grid[1, 0] = mark;
+                        playGrid[1, 0] = mark;
                         return true;
                     }
                     break;
 
                 case 3:
-                    if (grid[2, 0].Contains("3"))
+                    if (playGrid[2, 0].Contains("3"))
                     {
-                        grid[2, 0] = mark;
+                        playGrid[2, 0] = mark;
                         return true;
                     }
                     break;
 
                 case 4:
-                    if (grid[0, 1].Contains("4"))
+                    if (playGrid[0, 1].Contains("4"))
                     {
-                        grid[0, 1] = mark;
+                        playGrid[0, 1] = mark;
                         return true;
                     }
                     break;
 
                 case 5:
-                    if (grid[1, 1].Contains("5"))
+                    if (playGrid[1, 1].Contains("5"))
                     {
-                        grid[1, 1] = mark;
+                        playGrid[1, 1] = mark;
                         return true;
                     }
                     break;
 
                 case 6:
-                    if (grid[2, 1].Contains("6"))
+                    if (playGrid[2, 1].Contains("6"))
                     {
-                        grid[2, 1] = mark;
+                        playGrid[2, 1] = mark;
                         return true;
                     }
                     break;
 
                 case 7:
-                    if (grid[0, 2].Contains("7"))
+                    if (playGrid[0, 2].Contains("7"))
                     {
-                        grid[0, 2] = mark;
+                        playGrid[0, 2] = mark;
                         return true;
                     }
                     break;
 
 
                 case 8:
-                    if (grid[1, 2].Contains("8"))
+                    if (playGrid[1, 2].Contains("8"))
                     {
-                        grid[1, 2] = mark;
+                        playGrid[1, 2] = mark;
                         return true;
                     }
                     break;
 
                 case 9:
-                    if (grid[2, 2].Contains("9"))
+                    if (playGrid[2, 2].Contains("9"))
                     {
-                        grid[2, 2] = mark;
+                        playGrid[2, 2] = mark;
                         return true;
                     }
                     break;
@@ -258,49 +329,49 @@ namespace TicTacToe //Create Tic Tac Toe game with 2 players
             string mark = currentPlayer;
 
             // First Row
-            if (grid[0, 0] == mark && grid[1, 0] == mark && grid[2, 0] == mark)
+            if (playGrid[0, 0] == mark && playGrid[1, 0] == mark && playGrid[2, 0] == mark)
             {
                 return true;
             }
 
             //Second Row
-            if (grid[0, 1] == mark && grid[1, 1] == mark && grid[2, 1] == mark)
+            if (playGrid[0, 1] == mark && playGrid[1, 1] == mark && playGrid[2, 1] == mark)
             {
                 return true;
             }
 
             //Third Row
-            if (grid[0, 2] == mark && grid[1, 2] == mark && grid[2, 2] == mark)
+            if (playGrid[0, 2] == mark && playGrid[1, 2] == mark && playGrid[2, 2] == mark)
             {
                 return true;
             }
 
             //First Column
-            if (grid[0, 0] == mark && grid[0, 1] == mark && grid[0, 2] == mark)
+            if (playGrid[0, 0] == mark && playGrid[0, 1] == mark && playGrid[0, 2] == mark)
             {
                 return true;
             }
 
             //Second Column
-            if (grid[1, 0] == mark && grid[1, 1] == mark && grid[1, 2] == mark)
+            if (playGrid[1, 0] == mark && playGrid[1, 1] == mark && playGrid[1, 2] == mark)
             {
                 return true;
             }
 
             //Third Column
-            if (grid[2, 0] == mark && grid[2, 1] == mark && grid[2, 2] == mark)
+            if (playGrid[2, 0] == mark && playGrid[2, 1] == mark && playGrid[2, 2] == mark)
             {
                 return true;
             }
 
-            //Diagnol Left -> Right
-            if (grid[0, 0] == mark && grid[1, 1] == mark && grid[2, 2] == mark)
+            //Diagonal Left -> Right
+            if (playGrid[0, 0] == mark && playGrid[1, 1] == mark && playGrid[2, 2] == mark)
             {
                 return true;
             }
 
-            //Diagnol Right -> Left
-            if (grid[2, 0] == mark && grid[1, 1] == mark && grid[0, 2] == mark)
+            //Diagonal Right -> Left
+            if (playGrid[2, 0] == mark && playGrid[1, 1] == mark && playGrid[0, 2] == mark)
             {
                 return true;
             }
@@ -311,9 +382,9 @@ namespace TicTacToe //Create Tic Tac Toe game with 2 players
         {
             int convertedNumber;
 
-            if (Int32.TryParse(grid[0, 0], out convertedNumber) || Int32.TryParse(grid[1, 0], out convertedNumber) || Int32.TryParse(grid[2, 0], out convertedNumber) ||
-                Int32.TryParse(grid[0, 1], out convertedNumber) || Int32.TryParse(grid[1, 1], out convertedNumber) || Int32.TryParse(grid[2, 1], out convertedNumber) ||
-                Int32.TryParse(grid[0, 2], out convertedNumber) || Int32.TryParse(grid[1, 2], out convertedNumber) || Int32.TryParse(grid[2, 2], out convertedNumber))
+            if (Int32.TryParse(playGrid[0, 0], out convertedNumber) || Int32.TryParse(playGrid[1, 0], out convertedNumber) || Int32.TryParse(playGrid[2, 0], out convertedNumber) ||
+                Int32.TryParse(playGrid[0, 1], out convertedNumber) || Int32.TryParse(playGrid[1, 1], out convertedNumber) || Int32.TryParse(playGrid[2, 1], out convertedNumber) ||
+                Int32.TryParse(playGrid[0, 2], out convertedNumber) || Int32.TryParse(playGrid[1, 2], out convertedNumber) || Int32.TryParse(playGrid[2, 2], out convertedNumber))
             {
                 return false;
             }
@@ -482,10 +553,529 @@ namespace TicTacToe //Create Tic Tac Toe game with 2 players
             Console.WriteLine("Prease any key to quit.");
             Console.ReadKey();
         }
+
+        //Construct "Hard Mode" here, then cut/paste up.
+        static int CanWin(string mark, Grid currentGrid)
+        {
+            //Rows
+
+            if (currentGrid.GetAtPosition(1).Contains(mark) && currentGrid.GetAtPosition(2).Contains(mark)) {return 3;}
+
+            if (currentGrid.GetAtPosition(2).Contains(mark) && currentGrid.GetAtPosition(3).Contains(mark)) {return 1;}
+
+            if (currentGrid.GetAtPosition(1).Contains(mark) && currentGrid.GetAtPosition(3).Contains(mark)) {return 2;}
+
+            if (currentGrid.GetAtPosition(4).Contains(mark) && currentGrid.GetAtPosition(5).Contains(mark)) {return 6;}
+
+            if (currentGrid.GetAtPosition(5).Contains(mark) && currentGrid.GetAtPosition(6).Contains(mark)) {return 4;}
+
+            if (currentGrid.GetAtPosition(4).Contains(mark) && currentGrid.GetAtPosition(6).Contains(mark)) {return 5;}
+
+            if (currentGrid.GetAtPosition(7).Contains(mark) && currentGrid.GetAtPosition(8).Contains(mark)) {return 9;}
+
+            if (currentGrid.GetAtPosition(8).Contains(mark) && currentGrid.GetAtPosition(9).Contains(mark)) {return 7;}
+
+            if (currentGrid.GetAtPosition(7).Contains(mark) && currentGrid.GetAtPosition(9).Contains(mark)) {return 8;}
+
+            //Colums
+
+            if (currentGrid.GetAtPosition(1).Contains(mark) && currentGrid.GetAtPosition(4).Contains(mark)) { return 7; }
+
+            if (currentGrid.GetAtPosition(4).Contains(mark) && currentGrid.GetAtPosition(7).Contains(mark)) { return 1; }
+
+            if (currentGrid.GetAtPosition(1).Contains(mark) && currentGrid.GetAtPosition(7).Contains(mark)) { return 4; }
+
+            if (currentGrid.GetAtPosition(2).Contains(mark) && currentGrid.GetAtPosition(5).Contains(mark)) { return 8; }
+
+            if (currentGrid.GetAtPosition(5).Contains(mark) && currentGrid.GetAtPosition(8).Contains(mark)) { return 2; }
+
+            if (currentGrid.GetAtPosition(2).Contains(mark) && currentGrid.GetAtPosition(8).Contains(mark)) { return 5; }
+
+            if (currentGrid.GetAtPosition(3).Contains(mark) && currentGrid.GetAtPosition(6).Contains(mark)) { return 9; }
+
+            if (currentGrid.GetAtPosition(6).Contains(mark) && currentGrid.GetAtPosition(9).Contains(mark)) { return 3; }
+
+            if (currentGrid.GetAtPosition(3).Contains(mark) && currentGrid.GetAtPosition(9).Contains(mark)) { return 6; }
+
+            //Diagonals
+            if (currentGrid.GetAtPosition(1).Contains(mark) && currentGrid.GetAtPosition(5).Contains(mark)) { return 9; }
+
+            if (currentGrid.GetAtPosition(5).Contains(mark) && currentGrid.GetAtPosition(9).Contains(mark)) { return 1; }
+
+            if (currentGrid.GetAtPosition(1).Contains(mark) && currentGrid.GetAtPosition(9).Contains(mark)) { return 5; }
+
+            if (currentGrid.GetAtPosition(3).Contains(mark) && currentGrid.GetAtPosition(5).Contains(mark)) { return 7; }
+
+            if (currentGrid.GetAtPosition(5).Contains(mark) && currentGrid.GetAtPosition(7).Contains(mark)) { return 3; }
+
+            if (currentGrid.GetAtPosition(3).Contains(mark) && currentGrid.GetAtPosition(7).Contains(mark)) { return 5; }
+
+            return -1;
+        }
+        
+        static int[] PossibleTwoInARow()
+        {
+            //returns an Array of numbers
+        }
+
+        static int CanForkToWin()
+        {
+            // Go through all the int statements as above
+        }
+
+        static int CanBlockFork()
+        {
+
+        }
+
+        static void HardComputerTurn()
+        {
+            int slotToMark;
+            slotToMark = CanWin("O", playGrid); //Check to see if computer can win
+
+            if(slotToMark > 0) // Go for the win
+            {
+                //Computer marks this slot
+            }
+
+            slotToMark = CanWin("X", playGrid); // Check to see if human can win
+
+            if (slotToMark > 0)
+            {
+                //Computer marks this slot to cock block
+            }
+
+
+        }
     }
-    //Construct "Hard Mode" here, then cut/paste up.
 
 
+
+
+    /*
+        static void HardComputer1(string mark, int slot) //Does this write X,O in the slot, can't read that it does.
+        {
+
+            switch (slot) //Defines cases. Cleaner way of writing "ifs"
+            {
+
+                //First Row
+                case 1:
+                    if (grid[0, 0].Contains(currentPlayer) && grid[1, 0].Contains(currentPlayer))
+                    {
+                        grid[2, 0] = mark;
+                        return;
+                    }
+                    break;
+
+                case 2:
+                    if (grid[1, 0].Contains(currentPlayer) && grid[2, 0].Contains(currentPlayer))
+                    {
+                        grid[0, 0] = mark;
+                        return;
+                    }
+                    break;
+
+                case 3:
+                    if (grid[0, 0].Contains(currentPlayer) && grid[2, 0].Contains(currentPlayer))
+                    {
+                        grid[1, 0] = mark;
+                        return;
+                    }
+                    break;
+
+                //Second Row
+                case 4:
+                    if (grid[0, 1].Contains(currentPlayer) && grid[1, 1].Contains(currentPlayer))
+                    {
+                        grid[2, 1] = mark;
+                        return;
+                    }
+                    break;
+
+                case 5:
+                    if (grid[1, 1].Contains(currentPlayer) && grid[2, 1].Contains(currentPlayer))
+                    {
+                        grid[0, 1] = mark;
+                        return;
+                    }
+                    break;
+
+                case 6:
+                    if (grid[0, 1].Contains(currentPlayer) && grid[2, 1].Contains(currentPlayer))
+                    {
+                        grid[1, 1] = mark;
+                        return;
+                    }
+                    break;
+
+                //Third Row
+                case 7:
+                    if (grid[0, 2].Contains(currentPlayer) && grid[1, 2].Contains(currentPlayer))
+                    {
+                        grid[2, 2] = mark;
+                        return;
+                    }
+                    break;
+
+                case 8:
+                    if (grid[1, 2].Contains(currentPlayer) && grid[2, 2].Contains(currentPlayer))
+                    {
+                        grid[0, 2] = mark;
+                        return;
+                    }
+                    break;
+
+                case 9:
+                    if (grid[0, 2].Contains(currentPlayer) && grid[2, 2].Contains(currentPlayer))
+                    {
+                        grid[1, 2] = mark;
+                        return;
+                    }
+                    break;
+
+                //First Column
+                case 10:
+                    if (grid[0, 0].Contains(currentPlayer) && grid[0, 1].Contains(currentPlayer))
+                    {
+                        grid[0, 2] = mark;
+                        return;
+                    }
+                    break;
+
+                case 11:
+                    if (grid[0, 1].Contains(currentPlayer) && grid[0, 2].Contains(currentPlayer))
+                    {
+                        grid[0, 0] = mark;
+                        return;
+                    }
+                    break;
+
+                case 12:
+                    if (grid[0, 0].Contains(currentPlayer) && grid[0, 2].Contains(currentPlayer))
+                    {
+                        grid[0, 1] = mark;
+                        return;
+                    }
+                    break;
+
+                //Second Column
+                case 13:
+                    if (grid[1, 0].Contains(currentPlayer) && grid[1, 1].Contains(currentPlayer))
+                    {
+                        grid[1, 2] = mark;
+                        return;
+                    }
+                    break;
+
+                case 14:
+                    if (grid[1, 1].Contains(currentPlayer) && grid[1, 2].Contains(currentPlayer))
+                    {
+                        grid[1, 0] = mark;
+                        return;
+                    }
+                    break;
+
+                case 15:
+                    if (grid[1, 0].Contains(currentPlayer) && grid[1, 2].Contains(currentPlayer))
+                    {
+                        grid[1, 1] = mark;
+                        return;
+                    }
+                    break;
+
+                //Third Column
+                case 16:
+                    if (grid[2, 0].Contains(currentPlayer) && grid[2, 1].Contains(currentPlayer))
+                    {
+                        grid[2, 2] = mark;
+                        return;
+                    }
+                    break;
+
+                case 17:
+                    if (grid[2, 1].Contains(currentPlayer) && grid[2, 2].Contains(currentPlayer))
+                    {
+                        grid[2, 0] = mark;
+                        return;
+                    }
+                    break;
+
+                case 18:
+                    if (grid[2, 0].Contains(currentPlayer) && grid[2, 2].Contains(currentPlayer))
+                    {
+                        grid[2, 1] = mark;
+                        return;
+                    }
+                    break;
+
+                //Left to Right Diagonal
+                case 19:
+                    if (grid[0, 0].Contains(currentPlayer) && grid[1, 1].Contains(currentPlayer))
+                    {
+                        grid[2, 2] = mark;
+                        return;
+                    }
+                    break;
+
+                case 20:
+                    if (grid[1, 1].Contains(currentPlayer) && grid[2, 2].Contains(currentPlayer))
+                    {
+                        grid[0, 0] = mark;
+                        return;
+                    }
+                    break;
+
+                case 21:
+                    if (grid[0, 0].Contains(currentPlayer) && grid[2, 2].Contains(currentPlayer))
+                    {
+                        grid[1, 1] = mark;
+                        return;
+                    }
+                    break;
+
+                //Right to Left Diagonal
+                case 22:
+                    if (grid[2, 0].Contains(currentPlayer) && grid[1, 1].Contains(currentPlayer))
+                    {
+                        grid[0, 2] = mark;
+                        return;
+                    }
+                    break;
+
+                case 23:
+                    if (grid[1, 1].Contains(currentPlayer) && grid[0, 2].Contains(currentPlayer))
+                    {
+                        grid[2, 0] = mark;
+                        return;
+                    }
+                    break;
+
+                case 24:
+                    if (grid[0, 2].Contains(currentPlayer) && grid[2, 0].Contains(currentPlayer))
+                    {
+                        grid[1, 1] = mark;
+                        return;
+                    }
+                    break;
+
+                default: //If you reach me, then do next:
+                    break;
+            }
+        }
+
+        static void HardComputer2(string mark, int slot) //Does this write X,O in the slot, can't read that it does.
+        {
+
+            switch (slot) //Defines cases. Cleaner way of writing "ifs"
+            {
+
+                //First Row
+                case 1:
+                    if (grid[0, 0].Contains("X") && grid[1, 0].Contains("X"))
+                    {
+                        grid[2, 0] = mark;
+                        return;
+                    }
+                    break;
+
+                case 2:
+                    if (grid[1, 0].Contains("X") && grid[2, 0].Contains("X"))
+                    {
+                        grid[0, 0] = mark;
+                        return;
+                    }
+                    break;
+
+                case 3:
+                    if (grid[0, 0].Contains("X") && grid[2, 0].Contains("X"))
+                    {
+                        grid[1, 0] = mark;
+                        return;
+                    }
+                    break;
+
+                //Second Row
+                case 4:
+                    if (grid[0, 1].Contains("X") && grid[1, 1].Contains("X"))
+                    {
+                        grid[2, 1] = mark;
+                        return;
+                    }
+                    break;
+
+                case 5:
+                    if (grid[1, 1].Contains("X") && grid[2, 1].Contains("X"))
+                    {
+                        grid[0, 1] = mark;
+                        return;
+                    }
+                    break;
+
+                case 6:
+                    if (grid[0, 1].Contains("X") && grid[2, 1].Contains("X"))
+                    {
+                        grid[1, 1] = mark;
+                        return;
+                    }
+                    break;
+
+                //Third Row
+                case 7:
+                    if (grid[0, 2].Contains("X") && grid[1, 2].Contains("X"))
+                    {
+                        grid[2, 2] = mark;
+                        return;
+                    }
+                    break;
+
+                case 8:
+                    if (grid[1, 2].Contains("X") && grid[2, 2].Contains("X"))
+                    {
+                        grid[0, 2] = mark;
+                        return;
+                    }
+                    break;
+
+                case 9:
+                    if (grid[0, 2].Contains("X") && grid[2, 2].Contains("X"))
+                    {
+                        grid[1, 2] = mark;
+                        return;
+                    }
+                    break;
+
+                //First Column
+                case 10:
+                    if (grid[0, 0].Contains("X") && grid[0, 1].Contains("X"))
+                    {
+                        grid[0, 2] = mark;
+                        return;
+                    }
+                    break;
+
+                case 11:
+                    if (grid[0, 1].Contains("X") && grid[0, 2].Contains("X"))
+                    {
+                        grid[0, 0] = mark;
+                        return;
+                    }
+                    break;
+
+                case 12:
+                    if (grid[0, 0].Contains("X") && grid[0, 2].Contains("X"))
+                    {
+                        grid[0, 1] = mark;
+                        return;
+                    }
+                    break;
+
+                //Second Column
+                case 13:
+                    if (grid[1, 0].Contains("X") && grid[1, 1].Contains("X"))
+                    {
+                        grid[1, 2] = mark;
+                        return;
+                    }
+                    break;
+
+                case 14:
+                    if (grid[1, 1].Contains("X") && grid[1, 2].Contains("X"))
+                    {
+                        grid[1, 0] = mark;
+                        return;
+                    }
+                    break;
+
+                case 15:
+                    if (grid[1, 0].Contains("X") && grid[1, 2].Contains("X"))
+                    {
+                        grid[1, 1] = mark;
+                        return;
+                    }
+                    break;
+
+                //Third Column
+                case 16:
+                    if (grid[2, 0].Contains("X") && grid[2, 1].Contains("X"))
+                    {
+                        grid[2, 2] = mark;
+                        return;
+                    }
+                    break;
+
+                case 17:
+                    if (grid[2, 1].Contains("X") && grid[2, 2].Contains("X"))
+                    {
+                        grid[2, 0] = mark;
+                        return;
+                    }
+                    break;
+
+                case 18:
+                    if (grid[2, 0].Contains("X") && grid[2, 2].Contains("X"))
+                    {
+                        grid[2, 1] = mark;
+                        return;
+                    }
+                    break;
+
+                //Left to Right Diagonal
+                case 19:
+                    if (grid[0, 0].Contains("X") && grid[1, 1].Contains("X"))
+                    {
+                        grid[2, 2] = mark;
+                        return;
+                    }
+                    break;
+
+                case 20:
+                    if (grid[1, 1].Contains("X") && grid[2, 2].Contains("X"))
+                    {
+                        grid[0, 0] = mark;
+                        return;
+                    }
+                    break;
+
+                case 21:
+                    if (grid[0, 0].Contains("X") && grid[2, 2].Contains("X"))
+                    {
+                        grid[1, 1] = mark;
+                        return;
+                    }
+                    break;
+
+                //Right to Left Diagonal
+                case 22:
+                    if (grid[2, 0].Contains("X") && grid[1, 1].Contains("X"))
+                    {
+                        grid[0, 2] = mark;
+                        return;
+                    }
+                    break;
+
+                case 23:
+                    if (grid[1, 1].Contains("X") && grid[0, 2].Contains("X"))
+                    {
+                        grid[2, 0] = mark;
+                        return;
+                    }
+                    break;
+
+                case 24:
+                    if (grid[0, 2].Contains("X") && grid[2, 0].Contains("X"))
+                    {
+                        grid[1, 1] = mark;
+                        return;
+                    }
+                    break;
+
+                default: //If you reach me, then do next:
+                    break;
+            }
+        }
+
+        */
 
 }   
 
