@@ -4,164 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TicTacToe //Create Tic Tac Toe game with 2 players
-                    /* 
-                    1) Every turn you draw out the console grid.
-                    2) Randomly pick, a starting player. IE X player or O player
-                    3) Ask player where to mark - (or if they're trying to mark something already invalid)
-                    4) Update grid (Draw X's and O's)
-                    5) Check for win/stalemate
-                    Repeat 3-5
-                    */
-
-/*
-    _[0],[0]_|_[1],[0]_|_[2],[0]_
-    _4_|_5_|_6_
-    _7_|_8_|_9_
-
-*/
-
-/*
-    2 Dimensional Array
-*/
+namespace TicTacToe 
 {
-    class Grid
-    {
-        private string[,] gridstate;
-
-        public Grid()
-        {
-            
-            gridstate = new string[3, 3];
-            gridstate[0, 0] = "1";
-            gridstate[1, 0] = "2";
-            gridstate[2, 0] = "3";
-            gridstate[0, 1] = "4";
-            gridstate[1, 1] = "5";
-            gridstate[2, 1] = "6";
-            gridstate[0, 2] = "7";
-            gridstate[1, 2] = "8";
-            gridstate[2, 2] = "9";
-            
-        }
-
-        public string GetAtPosition(int p)
-        {
-            switch(p)
-            {
-                case 1:
-                    return gridstate[0, 0];
-                    break;
-
-                case 2:
-                    return gridstate[1, 0];
-                    break;
-
-                case 3:
-                    return gridstate[2, 0];
-                    break;
-
-                case 4:
-                    return gridstate[0, 1];
-                    break;
-
-                case 5:
-                    return gridstate[1, 1];
-                    break;
-
-                case 6:
-                    return gridstate[2, 1];
-                    break;
-
-                case 7:
-                    return gridstate[0, 2];
-                    break;
-
-                case 8:
-                    return gridstate[1, 2];
-                    break;
-
-                case 9:
-                    return gridstate[2, 2];
-                    break;
-
-                default:
-                    throw new ArgumentException("Position " + p + " does not exist.");
-                    break;
-            }
-        }
-
-        public string this[int x, int y]
-        {
-            get
-            {
-                return gridstate [x,y];
-            }
-            set
-            {
-                gridstate[x, y] = value;
-            }
-        }
-
-    }
 
     class Program
     {
         static Grid playGrid;
 
         static string currentPlayer;
-
-        static void PrintSlot(int x, int y)
-        {
-            if (playGrid[x, y] == "X")
-            {
-                Console.ForegroundColor = ConsoleColor.Blue;
-            }
-            else if (playGrid[x, y] == "O")
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-            }
-
-            Console.Write(playGrid[x, y]);
-            Console.ForegroundColor = ConsoleColor.White;
-        }
-
-        static void PrintGrid() //Error
-        {
-            string output = string.Format("_{0}_|_{1}_|_{2}_\n_{3}_|_{4}_|_{5}_\n {6} | {7} | {8} ", playGrid[0, 0], playGrid[1, 0], playGrid[2, 0],
-                playGrid[0, 1], playGrid[1, 1], playGrid[2, 1], playGrid[0, 2], playGrid[1, 2], playGrid[2, 2]); // { } is a Token
-
-            // Console.BackgroundColor = ConsoleColor.White;
-            Console.ForegroundColor = ConsoleColor.White;
-
-            Console.Write("_");
-            PrintSlot(0, 0);
-            Console.Write("_|_");
-            PrintSlot(1, 0);
-            Console.Write("_|_");
-            PrintSlot(2, 0);
-            Console.Write("_ \n");
-
-            Console.Write("_");
-            PrintSlot(0, 1);
-            Console.Write("_|_");
-            PrintSlot(1, 1);
-            Console.Write("_|_");
-            PrintSlot(2, 1);
-            Console.Write("_ \n");
-
-            Console.Write(" ");
-            PrintSlot(0, 2);
-            Console.Write(" | ");
-            PrintSlot(1, 2);
-            Console.Write(" | ");
-            PrintSlot(2, 2);
-            Console.Write(" \n");
-
-            //Console.WriteLine(output);
-
-            Console.ResetColor();
-        }
 
         static void PlayerSelector()
         {
@@ -179,149 +29,9 @@ namespace TicTacToe //Create Tic Tac Toe game with 2 players
             }
         }
 
-        static int ReadNumber()
-        {
-            while (true)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("Select number 1-9, and press enter.");
-                Console.WriteLine("");
-                string input = Console.ReadLine();
-                int number;
-                if (int.TryParse(input, out number))
-
-                {
-                    if ((number < 1) || (number > 9))
-                    {
-                        Console.WriteLine("");
-                        Console.WriteLine("Only accepts numbers 1-9.");
-                        Console.WriteLine("");
-                        continue;
-                    }
-
-                    return number;
-                }
-
-                else
-                {
-                    Console.WriteLine("");
-                    Console.WriteLine("Please enter only valid numbers.");
-                    Console.WriteLine("");
-                }
-            }
-        }
-
         static void CreateGrid() //Initializer function
         {
             playGrid = new Grid();
-        }
-
-        static bool PlaceMark(string mark, int slot) //Does this write X,O in the slot, can't read that it does.
-        {
-
-            switch (slot) //Defines cases. Cleaner way of writing "ifs"
-            {
-                case 1:
-                    if (playGrid[0, 0].Contains("1"))
-                    {
-                        playGrid[0, 0] = mark;
-                        return true;
-                    }
-                    break;
-
-                case 2:
-                    if (playGrid[1, 0].Contains("2"))
-                    {
-                        playGrid[1, 0] = mark;
-                        return true;
-                    }
-                    break;
-
-                case 3:
-                    if (playGrid[2, 0].Contains("3"))
-                    {
-                        playGrid[2, 0] = mark;
-                        return true;
-                    }
-                    break;
-
-                case 4:
-                    if (playGrid[0, 1].Contains("4"))
-                    {
-                        playGrid[0, 1] = mark;
-                        return true;
-                    }
-                    break;
-
-                case 5:
-                    if (playGrid[1, 1].Contains("5"))
-                    {
-                        playGrid[1, 1] = mark;
-                        return true;
-                    }
-                    break;
-
-                case 6:
-                    if (playGrid[2, 1].Contains("6"))
-                    {
-                        playGrid[2, 1] = mark;
-                        return true;
-                    }
-                    break;
-
-                case 7:
-                    if (playGrid[0, 2].Contains("7"))
-                    {
-                        playGrid[0, 2] = mark;
-                        return true;
-                    }
-                    break;
-
-
-                case 8:
-                    if (playGrid[1, 2].Contains("8"))
-                    {
-                        playGrid[1, 2] = mark;
-                        return true;
-                    }
-                    break;
-
-                case 9:
-                    if (playGrid[2, 2].Contains("9"))
-                    {
-                        playGrid[2, 2] = mark;
-                        return true;
-                    }
-                    break;
-
-                default: //If you reach me, then do next:
-                    break;
-            }
-
-            return false;
-        }
-
-        static void PlayerTurn()
-        {
-            Console.WriteLine("");
-            Console.WriteLine(currentPlayer + "'s turn.");
-            while (true)
-            {
-                int i = ReadNumber();
-                if (PlaceMark(currentPlayer, i))
-                {
-                    return;
-                }
-
-                else
-                {
-                    Console.WriteLine("");
-                    Console.WriteLine("You cannot write over another person's mark. Nice try though, cheater.");
-                    Console.WriteLine("If you're trying to write over your same number, you're a special kind of stupid.");
-                    Console.WriteLine("");
-                }
-            }
-
         }
 
         static bool WinCondition()
@@ -555,68 +265,6 @@ namespace TicTacToe //Create Tic Tac Toe game with 2 players
         }
 
         //Construct "Hard Mode" here, then cut/paste up.
-        static int CanWin(string mark, Grid currentGrid)
-        {
-            //Rows
-
-            if (currentGrid.GetAtPosition(1).Contains(mark) && currentGrid.GetAtPosition(2).Contains(mark)) {return 3;}
-
-            if (currentGrid.GetAtPosition(2).Contains(mark) && currentGrid.GetAtPosition(3).Contains(mark)) {return 1;}
-
-            if (currentGrid.GetAtPosition(1).Contains(mark) && currentGrid.GetAtPosition(3).Contains(mark)) {return 2;}
-
-            if (currentGrid.GetAtPosition(4).Contains(mark) && currentGrid.GetAtPosition(5).Contains(mark)) {return 6;}
-
-            if (currentGrid.GetAtPosition(5).Contains(mark) && currentGrid.GetAtPosition(6).Contains(mark)) {return 4;}
-
-            if (currentGrid.GetAtPosition(4).Contains(mark) && currentGrid.GetAtPosition(6).Contains(mark)) {return 5;}
-
-            if (currentGrid.GetAtPosition(7).Contains(mark) && currentGrid.GetAtPosition(8).Contains(mark)) {return 9;}
-
-            if (currentGrid.GetAtPosition(8).Contains(mark) && currentGrid.GetAtPosition(9).Contains(mark)) {return 7;}
-
-            if (currentGrid.GetAtPosition(7).Contains(mark) && currentGrid.GetAtPosition(9).Contains(mark)) {return 8;}
-
-            //Colums
-
-            if (currentGrid.GetAtPosition(1).Contains(mark) && currentGrid.GetAtPosition(4).Contains(mark)) { return 7; }
-
-            if (currentGrid.GetAtPosition(4).Contains(mark) && currentGrid.GetAtPosition(7).Contains(mark)) { return 1; }
-
-            if (currentGrid.GetAtPosition(1).Contains(mark) && currentGrid.GetAtPosition(7).Contains(mark)) { return 4; }
-
-            if (currentGrid.GetAtPosition(2).Contains(mark) && currentGrid.GetAtPosition(5).Contains(mark)) { return 8; }
-
-            if (currentGrid.GetAtPosition(5).Contains(mark) && currentGrid.GetAtPosition(8).Contains(mark)) { return 2; }
-
-            if (currentGrid.GetAtPosition(2).Contains(mark) && currentGrid.GetAtPosition(8).Contains(mark)) { return 5; }
-
-            if (currentGrid.GetAtPosition(3).Contains(mark) && currentGrid.GetAtPosition(6).Contains(mark)) { return 9; }
-
-            if (currentGrid.GetAtPosition(6).Contains(mark) && currentGrid.GetAtPosition(9).Contains(mark)) { return 3; }
-
-            if (currentGrid.GetAtPosition(3).Contains(mark) && currentGrid.GetAtPosition(9).Contains(mark)) { return 6; }
-
-            //Diagonals
-            if (currentGrid.GetAtPosition(1).Contains(mark) && currentGrid.GetAtPosition(5).Contains(mark)) { return 9; }
-
-            if (currentGrid.GetAtPosition(5).Contains(mark) && currentGrid.GetAtPosition(9).Contains(mark)) { return 1; }
-
-            if (currentGrid.GetAtPosition(1).Contains(mark) && currentGrid.GetAtPosition(9).Contains(mark)) { return 5; }
-
-            if (currentGrid.GetAtPosition(3).Contains(mark) && currentGrid.GetAtPosition(5).Contains(mark)) { return 7; }
-
-            if (currentGrid.GetAtPosition(5).Contains(mark) && currentGrid.GetAtPosition(7).Contains(mark)) { return 3; }
-
-            if (currentGrid.GetAtPosition(3).Contains(mark) && currentGrid.GetAtPosition(7).Contains(mark)) { return 5; }
-
-            return -1;
-        }
-        
-        static int[] PossibleTwoInARow()
-        {
-            //returns an Array of numbers
-        }
 
         static int CanForkToWin()
         {
@@ -647,9 +295,21 @@ namespace TicTacToe //Create Tic Tac Toe game with 2 players
 
 
         }
+        
+        static bool SimulationFork(int i, Grid simGrid)
+        {
+            Place a mark
+
+            marks i;
+
+            runs canfork;
+
+            returns bool (if it results in a fork or not)
+        }
+
     }
 
-
+    
 
 
     /*
