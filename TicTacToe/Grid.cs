@@ -240,5 +240,71 @@ namespace TicTacToe
             return slots;
         }
 
+        public bool WinCondition(string mark)
+        {
+            // First Row
+            if (this[0, 0] == mark && this[1, 0] == mark && this[2, 0] == mark)
+            {
+                return true;
+            }
+
+            //Second Row
+            if (this[0, 1] == mark && this[1, 1] == mark && this[2, 1] == mark)
+            {
+                return true;
+            }
+
+            //Third Row
+            if (this[0, 2] == mark && this[1, 2] == mark && this[2, 2] == mark)
+            {
+                return true;
+            }
+
+            //First Column
+            if (this[0, 0] == mark && this[0, 1] == mark && this[0, 2] == mark)
+            {
+                return true;
+            }
+
+            //Second Column
+            if (this[1, 0] == mark && this[1, 1] == mark && this[1, 2] == mark)
+            {
+                return true;
+            }
+
+            //Third Column
+            if (this[2, 0] == mark && this[2, 1] == mark && this[2, 2] == mark)
+            {
+                return true;
+            }
+
+            //Diagonal Left -> Right
+            if (this[0, 0] == mark && this[1, 1] == mark && this[2, 2] == mark)
+            {
+                return true;
+            }
+
+            //Diagonal Right -> Left
+            if (this[2, 0] == mark && this[1, 1] == mark && this[0, 2] == mark)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public bool Stalemate()
+        {
+            int convertedNumber;
+
+            if (Int32.TryParse(this[0, 0], out convertedNumber) || Int32.TryParse(this[1, 0], out convertedNumber) || Int32.TryParse(this[2, 0], out convertedNumber) ||
+                Int32.TryParse(this[0, 1], out convertedNumber) || Int32.TryParse(this[1, 1], out convertedNumber) || Int32.TryParse(this[2, 1], out convertedNumber) ||
+                Int32.TryParse(this[0, 2], out convertedNumber) || Int32.TryParse(this[1, 2], out convertedNumber) || Int32.TryParse(this[2, 2], out convertedNumber))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
     }
 }
