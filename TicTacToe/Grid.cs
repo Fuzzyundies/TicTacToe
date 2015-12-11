@@ -256,5 +256,22 @@ namespace TicTacToe
 
             return new Grid(newGridState);
         }
+
+        /// <summary>
+        /// Returns a list of all positions that are empty
+        /// </summary>
+        /// <returns></returns>
+        public List<int> PossibleMoves()
+        {
+            List<int> returnList = new List<int>();
+
+            for (int i = 1; i <= 9; i++)
+            {
+                if (this[i] == Mark.Empty)
+                    returnList.Add(i);
+            }
+
+            return returnList;
+        }
     }
 }
