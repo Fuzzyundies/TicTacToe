@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace TicTacToe
 {
+    /// <summary>
+    /// A Mark represents who owns a position on a Grid.
+    /// </summary>
     enum Mark
     {
         Empty = 0,
@@ -13,6 +16,9 @@ namespace TicTacToe
         O
     }
 
+    /// <summary>
+    /// A point refers to a given position on a Grid, and consists of an X and Y coordinate.
+    /// </summary>
     struct Point
     {
         public int x;
@@ -25,73 +31,97 @@ namespace TicTacToe
         }
     }
 
+    /// <summary>
+    /// A Grid represents the current game state.
+    /// </summary>
     class Grid
     {
+        /// <summary>
+        /// Two-dimensional array that represents the grid, each position containing a Mark
+        /// </summary>
         private Mark[,] _gridState;
         
+        /// <summary>
+        /// Constructs a new 3x3 grid
+        /// </summary>
         public Grid()
         {
-            _gridState = new Mark[3, 3];
+            this._gridState = new Mark[3, 3];
+        }
+
+        /// <summary>
+        /// Constructs a 3x3 grid copied from another grid's gridstate (used by Clone())
+        /// </summary>
+        /// <param name="otherGridState"></param>
+        private Grid(Mark[,] otherGridState)
+        {
+            this._gridState = otherGridState;
         }
         
+        /// <summary>
+        /// Takes an integer that represents a slot on the grid and returns its X and Y coordinates as a Point.
+        /// </summary>
+        /// <param name="p">Integer value from 1-9</param>
+        /// <returns></returns>
         private Point GetAtPosition(int p)
         {
             switch (p)
             {
                 case 1:
                     return new Point(0, 0);
-                    break;
 
                 case 2:
                     return new Point(1, 0);
-                    break;
 
                 case 3:
                     return new Point(2, 0);
-                    break;
 
                 case 4:
                     return new Point(0, 1);
-                    break;
 
                 case 5:
                     return new Point(1, 1);
-                    break;
 
                 case 6:
                     return new Point(2, 1);
-                    break;
 
                 case 7:
                     return new Point(0, 2);
-                    break;
 
                 case 8:
                     return new Point(1, 2);
-                    break;
 
                 case 9:
                     return new Point(2, 2);
-                    break;
 
                 default:
                     throw new ArgumentException("Position " + p + " does not exist.");
-                    break;
             }
         }
 
+        /// <summary>
+        /// Gets or sets the Mark at position [x,y]
+        /// </summary>
+        /// <param name="x">X coordinate</param>
+        /// <param name="y">Y coordinate</param>
+        /// <returns></returns>
         public Mark this[int x, int y]
         {
             get
             {
-                return _gridState[x, y];
+                return this._gridState[x, y];
             }
             set
             {
-                _gridState[x, y] = value;
+                this._gridState[x, y] = value;
             }
         }
 
+        /// <summary>
+        /// Gets or sets the Mark at position p
+        /// </summary>
+        /// <param name="p">Position</param>
+        /// <returns></returns>
         public Mark this[int p]
         {
             get
@@ -106,6 +136,10 @@ namespace TicTacToe
             }
         }
         
+        /// <summary>
+        /// Returns true if the grid has a winner
+        /// </summary>
+        /// <returns></returns>
         public bool HasWinner()
         {
             if (this.Winner() == Mark.Empty)
@@ -114,6 +148,10 @@ namespace TicTacToe
                 return true;
         }
 
+        /// <summary>
+        /// Returns the winning Mark on the grid, or Mark.Empty if there is no winner.
+        /// </summary>
+        /// <returns></returns>
         public Mark Winner()
         {
             if (WinCondition(Mark.X))
@@ -124,6 +162,11 @@ namespace TicTacToe
                 return Mark.Empty; // There is no winner
         }
 
+        /// <summary>
+        /// Checks to see if the specified Mark is a winner
+        /// </summary>
+        /// <param name="mark">Mark to check</param>
+        /// <returns></returns>
         private bool WinCondition(Mark mark)
         {
             // First Row
@@ -176,6 +219,10 @@ namespace TicTacToe
             return false;
         }
 
+        /// <summary>
+        /// Returns true if all slots on the grid are filled and no winner exists.
+        /// </summary>
+        /// <returns></returns>
         public bool IsStalemate()
         {
             if (this.HasWinner())
@@ -191,5 +238,40 @@ namespace TicTacToe
             return true;
         }
 
+        /// <summary>
+        /// Returns a deep copy clone of this Grid
+        /// </summary>
+        /// <returns></returns>
+        public Grid Clone()
+        {
+            Mark[,] newGridState = new Mark[3, 3];
+
+            for (int x = 0; x <= 2; x++)
+            {
+                for (int y = 0; y <= 2; y++)
+                {
+                    newGridState[x, y] = this[x, y];
+                }
+            }
+
+            return new Grid(newGridState);
+        }
+
+        /// <summary>
+        /// Returns a list of all positions that are empty
+        /// </summary>
+        /// <returns></returns>
+        public List<int> PossibleMoves()
+        {
+            List<int> returnList = new List<int>();
+
+            for (int i = 1; i <= 9; i++)
+            {
+                if (this[i] == Mark.Empty)
+                    returnList.Add(i);
+            }
+
+            return returnList;
+        }
     }
 }
